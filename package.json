@@ -1,5 +1,5 @@
 {
-  "name": "Movies",
+  "name": "GroceriVibes",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dongb909/Movies.git"
+    "url": "git+https://github.com/dongb909/GroceriVibes.git"
   },
   "keywords": [],
   "author": "BacAi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/dongb909/Movies/issues"
+    "url": "https://github.com/dongb909/GroceriVibes/issues"
   },
-  "homepage": "https://github.com/dongb909/Movies#readme",
+  "homepage": "https://github.com/dongb909/GroceriVibes#readme",
   "dependencies": {
     "axios": "^0.19.2",
     "cors": "^2.8.5",
