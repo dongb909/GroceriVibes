@@ -1,11 +1,11 @@
-DROP DATABASE IF EXISTS movielist;
+DROP DATABASE IF EXISTS grocerivibes;
 
-CREATE DATABASE movielist;
+CREATE DATABASE grocerivibes;
 -- createdb gallery
 --dropdb gallery
-\connect movielist;
+\connect grocerivibes;
 
-CREATE TABLE movies(
+CREATE TABLE groceries(
     movie_id  SERIAL         NOT NULL    PRIMARY KEY,
     title     VARCHAR(100)   NOT NULL,
     genre     VARCHAR(100)   NOT NULL,
