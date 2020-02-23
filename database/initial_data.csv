@@ -1,7 +1,8 @@
 item, category, quantity, price
-apple, fruit, 100, 0.99
-avocado, fruit, 100, 2.50
-brownie, bakery, 100, 0.50
-bread, bakery, 100, 5.00
-oat milk, drinks, 100, 6.00
-butterlettuce, produce, 100, 4.99
+apple,fruit,100,0.99
+avocado,fruit,100,2.50
+brownie,bakery,100,0.50
+bread,bakery,100,5.00
+oat milk,drinks,100,6.00
+butterlettuce,produce,100,4.99
+tea,drinks,100,2.99

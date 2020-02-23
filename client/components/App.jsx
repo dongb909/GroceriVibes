@@ -33,14 +33,14 @@ class App extends Component {
           // console.log("response data Axios",res.data );
           this.setState({list:res.data})
       })
-      .catch(err => console.log('ERROR from CLENT AXIOS REQ', err ))
+      .catch(err => console.log('ERROR from CLENT getAllItems', err ))
 
     axios.get("/cartItems")
       .then(res => this.setState({checkout:res.data}))
-        .catch(err => console.log('ERROR from CLENT AXIOS REQ', err ))
+        .catch(err => console.log('ERROR from CLENT getCartItems', err ))
   }
 
-  loginSubmitHandler(e){
+  loginSubmitHandler (e){
     e.preventDefault();
     axios.post('/addUser', {username: this.state.username})
       .then(res => {
@@ -69,10 +69,11 @@ class App extends Component {
     console.log(id)
     console.log(this.state)
     axios.post('/addItem', {itemid: id, qty: this.state.qty[id]})
-      .then(res => {console.log(res.data);
-      this.setState({list: res.data})
-      axios.get("/cartItems")
-      .then(res => this.setState({checkout:res.data}))
+      .then(res => {
+        console.log(res.data);
+        this.setState({list: res.data})
+        axios.get("/cartItems")
+          .then(res => this.setState({checkout:res.data}))
         .catch(err => console.log('ERROR from CLENT AXIOS REQ', err ))
     }).catch(err => console.log(err))
   }

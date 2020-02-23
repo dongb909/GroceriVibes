@@ -60,7 +60,7 @@ const addItem = (cb, {itemid, userid, qty}) => {
     if (err) {
       console.log('DB ERROR checking qty', err)
     } else {
-      console.log(`res `, res.rows[0].quantity, qty)
+      // console.log(`res `, res.rows[0].quantity, qty)
       const qtyCheck = res.rows[0].quantity >=qty ? res.rows[0].quantity - qty : -1
       if(qtyCheck > 0) {
         client.query(`UPDATE inventory set quantity=${qtyCheck} where id=${itemid}; 
