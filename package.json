@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./server/index.js",
-    "react-dev": "webpack -d -w",
+    "react-dev": "webpack -p -w",
     "create-db": "psql < ./database/schema.sql"
   },
   "repository": {
@@ -21,6 +21,9 @@
   "homepage": "https://github.com/dongb909/GroceriVibes#readme",
   "dependencies": {
     "axios": "^0.19.2",
+    "babel-loader": "^8.0.6",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "nodemon": "^2.0.2",
