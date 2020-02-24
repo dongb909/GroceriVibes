@@ -15,6 +15,7 @@ class App extends Component {
       qty:{
       },
       checkout:[],
+      showCart: false,
       loggedIn: false,
       checkoutTotal:0,
       category:""
@@ -23,6 +24,9 @@ class App extends Component {
     this.loginChangeHandler= this.loginChangeHandler.bind(this);
     this.addToCartHandler= this.addToCartHandler.bind(this);
     this.itemQtyChangeHandler= this.itemQtyChangeHandler.bind(this);
+    this.checkoutHandler= this.checkoutHandler.bind(this);
+    this.backToBrowseHandler= this.backToBrowseHandler.bind(this);
+    this.logOutHandler= this.logOutHandler.bind(this);
   }
 
 
@@ -73,50 +77,53 @@ class App extends Component {
     console.log("State of application after adding to cart", this.state)
     axios.post('/addItem', {itemid: id, qty: this.state.qty[id]})
       .then(res => {
-        console.log(res.data);
         this.setState({list: res.data})
         axios.get("/cartItems")
           .then(res => this.setState({checkout:res.data}))
         .catch(err => console.log('ERROR from CLENT AXIOS REQ', err ))
     }).catch(err => console.log(err))
-  }
 
+  }
+  logOutHandler(e){
+    e.preventDefault();
+    this.setState({loggedIn: false})
+    document.cookie = "userid=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+
+  }
+   checkoutHandler(e){
+     e.preventDefault();
+     this.setState({showCart:true})
+   } 
+   backToBrowseHandler(e){
+    e.preventDefault();
+    this.setState({showCart:false})
+   }
   render() {
 
     return (
-      <Router>
       <div>
-        <ul>
-          <li>
-            <Link to="/">Homepage Login</Link>
-          </li>
-          <li>
-            <Link to="/browse">Browse</Link>
-          </li>
-          <li>
-            <Link to="/cart">Cart</Link>
-          </li>
-        </ul>
-        <hr />
-        <Switch>
-          <Route exact path="/">
-          {this.state.loggedIn ? "You are already signed in. Please go to browsing page to start shopping!" : <Login loginSubmitHandler={this.loginSubmitHandler} loginChangeHandler={this.loginChangeHandler} username={this.state.username}/>}
-          </Route>
-          <Route path="/browse">
-          <Browse list={this.state.list} itemQtyChangeHandler={this.itemQtyChangeHandler} addToCartHandler={this.addToCartHandler} qty={this.state.qty} /> 
-          </Route>
-          <Route path="/cart">
-          <Cart checkout={this.state.checkout} checkoutTotal={this.state.checkoutTotal} checkoutTotalHandler={this.checkoutTotalHandler}/>
-          </Route>
-        </Switch>
+        <h1>WELCOME TO GROCERIVIBES!</h1>
+        {this.state.loggedIn && <button onClick={this.logOutHandler}>Logout</button>}
+        {!this.state.loggedIn && <Login
+          loginSubmitHandler={this.loginSubmitHandler}
+          loginChangeHandler={this.loginChangeHandler}
+          username={this.state.username}/>}
+        
+        
+        {this.state.loggedIn && !this.state.showCart && <Browse list={this.state.list}
+            itemQtyChangeHandler={this.itemQtyChangeHandler}
+            addToCartHandler={this.addToCartHandler}
+            qty={this.state.qty} 
+            checkoutHandler={this.checkoutHandler}/>  }
+        
+        
+        {this.state.showCart &&
+        <Cart
+          checkout={this.state.checkout}
+          checkoutTotal={this.state.checkoutTotal}
+          checkoutTotalHandler={this.checkoutTotalHandler}
+          backToBrowseHandler={this.backToBrowseHandler}/>}
       </div>
-    </Router>
-      // <div>
-      //   <h1>React is WORKING</h1>
-      //   {this.state.loggedIn ? <Browse list={this.state.list} itemQtyChangeHandler={this.itemQtyChangeHandler} addToCartHandler={this.addToCartHandler} qty={this.state.qty} /> : 
-      //   <Login loginSubmitHandler={this.loginSubmitHandler} loginChangeHandler={this.loginChangeHandler} username={this.state.username}/>}
-      //   <Cart checkout={this.state.checkout} checkoutTotal={this.state.checkoutTotal} checkoutTotalHandler={this.checkoutTotalHandler}/>
-      // </div>
     )
   }
 }

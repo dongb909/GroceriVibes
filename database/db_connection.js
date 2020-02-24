@@ -15,7 +15,7 @@ client.connect((err)=>{
 });
 
 const getAllItems = cb => {
-  client.query((`SELECT * from inventory;`), (err,res) => {
+  client.query((`SELECT * from inventory ORDER BY id;`), (err,res) => {
     if (err) {
       console.log ('ERROR from getAllItems DB', err.stack)
       cb(err.stack, null)
@@ -65,7 +65,7 @@ const addItem = (cb, {itemid, userid, qty}) => {
       if(qtyCheck > 0) {
         client.query(`UPDATE inventory set quantity=${qtyCheck} where id=${itemid}; 
           INSERT INTO carts(userid, itemid, quantity) VALUES('${userid}', '${itemid}', '${qty}'); 
-            SELECT * from inventory`, 
+            SELECT * from inventory ORDER BY id`, 
             (err, res) => {
               if (err) {
                 console.log('DB ERROR addToCart', err)

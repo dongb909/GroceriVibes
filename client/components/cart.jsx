@@ -1,12 +1,14 @@
 const React = require("react")
 
-const Cart = ({checkout}) =>  {
+const Cart = ({checkout, backToBrowseHandler}) =>  {
+  console.log(`checkout `, checkout)
+  let checkoutTotal = 0
   const accumulatedItems = checkout.reduce((acc, currItem) => {
     const {quantity:totalItemQty, item, price:unitPrice} = currItem
     // saving each item as {item: [unitPrice, totalItemQty, totalItemCost]}
     console.log("currentItem from cart", currItem);
     const totalItemCost = totalItemQty * unitPrice
-    // console.log("accumulator", acc)
+    console.log("accumulator", acc)
     if (acc.item) {
       acc.item[1] = acc.item[1] + totalItemQty;
       acc.item[2] = acc.item[2] + totalItemCost;
@@ -14,12 +16,15 @@ const Cart = ({checkout}) =>  {
       acc[item] = [unitPrice, totalItemQty, totalItemCost]
       console.log("updated accumulartor", acc)
     }
+    checkoutTotal += totalItemCost;
     return acc
   },{})
   console.log("accumulated Items from cart", accumulatedItems)
+  // const total = accumulatedItems
   
   return (
     <div id="cart"> 
+      <button onClick={backToBrowseHandler}>Back</button>
       <table>
         <thead>
           <tr>
@@ -38,7 +43,7 @@ const Cart = ({checkout}) =>  {
                   <td>{item}</td>
                   <td>${unitPrice}</td>
                   <td>{totalItemQty}</td>
-                  <td>${totalItemCost}</td>
+                  <td>${totalItemCost.toFixed(2)}</td>
                 </tr>
               )
             })
@@ -51,7 +56,7 @@ const Cart = ({checkout}) =>  {
             <td></td>
             <td></td>
             <td>Final total</td>
-            <td>$</td>
+        <td>${checkoutTotal.toFixed(2)}</td>
           </tr>
         </tbody>
       </table>
