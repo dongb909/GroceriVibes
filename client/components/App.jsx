@@ -3,8 +3,7 @@ import axios from 'axios';
 import Login from './login';
 import Browse from './browse';
 import Cart from './cart';
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
-// import {connect} from 'react-redux'
+import styled from 'styled-components';
 
 class App extends Component {
   constructor(props) {
@@ -47,7 +46,7 @@ class App extends Component {
         .catch(err => console.log('ERROR from CLENT getCartItems', err ))
   }
 
-  loginSubmitHandler (e){
+  loginSubmitHandler(e) {
     e.preventDefault();
     axios.post('/addUser', {username: this.state.username})
       .then(res => {
@@ -98,31 +97,34 @@ class App extends Component {
     e.preventDefault();
     this.setState({showCart:false})
    }
+  
+  
+  
+  
   render() {
 
     return (
       <div>
-        <h1>WELCOME TO GROCERIVIBES!</h1>
-        {this.state.loggedIn && <button onClick={this.logOutHandler}>Logout</button>}
         {!this.state.loggedIn && <Login
           loginSubmitHandler={this.loginSubmitHandler}
           loginChangeHandler={this.loginChangeHandler}
           username={this.state.username}/>}
-        
-        
+
         {this.state.loggedIn && !this.state.showCart && <Browse list={this.state.list}
             itemQtyChangeHandler={this.itemQtyChangeHandler}
             addToCartHandler={this.addToCartHandler}
             qty={this.state.qty} 
             checkoutHandler={this.checkoutHandler}/>  }
-        
-        
+
         {this.state.showCart &&
         <Cart
           checkout={this.state.checkout}
           checkoutTotal={this.state.checkoutTotal}
           checkoutTotalHandler={this.checkoutTotalHandler}
           backToBrowseHandler={this.backToBrowseHandler}/>}
+
+        {this.state.loggedIn && 
+          <button onClick={this.logOutHandler}>Logout</button>}
       </div>
     )
   }

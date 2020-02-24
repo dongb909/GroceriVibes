@@ -1,31 +1,34 @@
 const React = require("react")
+import styled, {keyframes} from 'styled-components';
+
+const Table = styled.table `
+  border: black 1px solid;
+`
+
 
 const Cart = ({checkout, backToBrowseHandler}) =>  {
-  console.log(`checkout `, checkout)
   let checkoutTotal = 0
   const accumulatedItems = checkout.reduce((acc, currItem) => {
     const {quantity:totalItemQty, item, price:unitPrice} = currItem
     // saving each item as {item: [unitPrice, totalItemQty, totalItemCost]}
-    console.log("currentItem from cart", currItem);
+    // console.log("currentItem from cart", currItem);
     const totalItemCost = totalItemQty * unitPrice
-    console.log("accumulator", acc)
+    // console.log("accumulator", acc)
     if (acc.item) {
       acc.item[1] = acc.item[1] + totalItemQty;
       acc.item[2] = acc.item[2] + totalItemCost;
     } else {
       acc[item] = [unitPrice, totalItemQty, totalItemCost]
-      console.log("updated accumulartor", acc)
     }
     checkoutTotal += totalItemCost;
     return acc
   },{})
-  console.log("accumulated Items from cart", accumulatedItems)
-  // const total = accumulatedItems
+  // console.log("accumulated Items from cart", accumulatedItems)
   
   return (
     <div id="cart"> 
       <button onClick={backToBrowseHandler}>Back</button>
-      <table>
+      <Table id='cartTble'>
         <thead>
           <tr>
             <th scope="col">ITEM</th>
@@ -49,17 +52,11 @@ const Cart = ({checkout, backToBrowseHandler}) =>  {
             })
           }
           <tr>
-          </tr>
-          <tr>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td>Final total</td>
-        <td>${checkoutTotal.toFixed(2)}</td>
+            <td colspan='3'>Final total</td>
+            <td>${checkoutTotal.toFixed(2)}</td>
           </tr>
         </tbody>
-      </table>
+      </Table>
     </div>
   )
 }
