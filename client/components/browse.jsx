@@ -4,35 +4,61 @@ import styled from 'styled-components';
 const Banner = styled.h2 `
   line-height:100px;
   text-align:center;
-`
-const Container = styled.div `
-  margin-left:200px;
-  margin-right:200px;
+  background-color: rgba(255,255,255,0.85);
+  color: black;
+  background-position: center;
 `
 
+const MainContainer = styled.div `
+  margin-left:20%;
+  margin-right:20%;
+  background-color: rgba(255,255,255,0.85);
+  color: black;
+`
+const ItemContainer = styled.div `
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-self: center;
 
+`
+const Column = styled.span `
+  flex:1;
+  text-align: center;
+`
+const Cell = styled.span `
+  flex:1;
+  border: black 1px solid;
+  margin-top: -1px;
+  margin-left: -1px;
+  text-align: center;
+`
 const Browse = ({list, itemQtyChangeHandler, addToCartHandler, qty, checkoutHandler}) => (
   <div id="BrowseContainer">
     <Banner>Start adding items to your cart</Banner>
-    <Container>
+    <MainContainer>
+      <ItemContainer>
+        <Column>Item</Column>
+        <Column>Category</Column>
+        <Column>Quanity Available</Column>
+        <Column>Price</Column>
+        <Column>Units</Column>
+      </ItemContainer>
       {list.map(item => (
         <Item {...item}  itemQtyChangeHandler={itemQtyChangeHandler} addToCartHandler={addToCartHandler} qty={qty}/>
         ))}
       <button id="checkoutButton" onClick={checkoutHandler}>Checkout</button>
-    </Container>
+    </MainContainer>
   </div>
 )
 
-const EachItem = styled.div`
-  border: 2px solid black;
-`
-
 const Item = ({id, item, category, quantity, price, itemQtyChangeHandler, addToCartHandler, qty}) => (
-  <EachItem className="item" key={id}> 
-    <span name="item" className="col-8"> {item}</span>
-    <span name="category" className="col-4"> {category}</span>
-    <span name="quantity" className="col-4"> {quantity}</span>
-    <span name="price" className="col-4"> {price}</span> 
+  <ItemContainer> 
+    <Cell name="item" > {item}</Cell>
+    <Cell name="category" >{category}</Cell>
+    <Cell name="quantity" >{quantity}</Cell>
+    <Cell name="price">{price}</Cell> 
+    <Cell>  
       <form onSubmit={(e) => {
         e.preventDefault();
         addToCartHandler(id);
@@ -40,7 +66,8 @@ const Item = ({id, item, category, quantity, price, itemQtyChangeHandler, addToC
         <input type="number" name="qty" id={id} min="1" max={quantity} onChange={itemQtyChangeHandler} value={qty[id]}/>
         <button name="addToCart">Add to cart</button>
       </form>
-  </EachItem>
+    </Cell>
+  </ItemContainer>
 )
 
  

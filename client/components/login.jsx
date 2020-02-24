@@ -18,6 +18,7 @@ const Wrapper = styled.div `
   letter-spacing: 5px;
   text-align:center;
   background-color: rgba(255,255,255,0.5);
+  background-position: center;
   color: black;
 `
 
