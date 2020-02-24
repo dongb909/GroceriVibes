@@ -13,7 +13,8 @@ const Cart = ({checkout}) =>  {
       acc[item] = [totalItemQty, totalItemCost, unitPrice]
     }
   },{})
-  console.log(accumulatedItems)
+  console.log("accumulated Items from cart"), accumulatedItems)
+  
   return (
     <div id="cart"> 
       <table>
@@ -28,7 +29,8 @@ const Cart = ({checkout}) =>  {
         <tbody>
           {Object.entries(accumulatedItems).map(
             entry => {
-              const [item, [totalItemQty, totalItemCost, unitPrice]] = entry
+              const [item, prices] = entry
+              const [totalItemQty, totalItemCost, unitPrice] = prices
               return (
                 <tr>
                   <td>{item}</td>
@@ -38,6 +40,7 @@ const Cart = ({checkout}) =>  {
                 </tr>
               )
             })
+            
           }
         </tbody>
       </table>
@@ -51,4 +54,9 @@ export default Cart;
 
 //go through items and reduce to 1 line and then return new arr to display but not updating 
 //display new arr wty, item, total item price, at bottom total price. checkout button
-//
+
+const  = () => {
+  return (  );
+}
+ 
+export default ;
