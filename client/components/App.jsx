@@ -16,7 +16,8 @@ class App extends Component {
       },
       checkout:[],
       loggedIn: false,
-      checkoutTotal:0
+      checkoutTotal:0,
+      category:""
     }
     this.loginSubmitHandler= this.loginSubmitHandler.bind(this);
     this.loginChangeHandler= this.loginChangeHandler.bind(this);
