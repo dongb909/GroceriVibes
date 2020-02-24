@@ -25,4 +25,4 @@ CREATE TABLE carts (
     quantity INT     
 );
 
-COPY inventory(item, category, quantity, price) FROM '/Users/dbacai99/Interview/GroceriVibes/database/initial_data
+COPY inventory(item, category, quantity, price) FROM '/Users/dbacai99/Interview/GroceriVibes/database/initial_data.csv' DELIMITERS ',' HEADER CSV;

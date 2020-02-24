@@ -3,6 +3,7 @@ import axios from 'axios';
 import Login from './login';
 import Browse from './browse';
 import Cart from './cart';
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 // import {connect} from 'react-redux'
 
 class App extends Component {
@@ -14,7 +15,8 @@ class App extends Component {
       qty:{
       },
       checkout:[],
-      loggedIn: false
+      loggedIn: false,
+      checkoutTotal:0
     }
     this.loginSubmitHandler= this.loginSubmitHandler.bind(this);
     this.loginChangeHandler= this.loginChangeHandler.bind(this);
@@ -44,7 +46,7 @@ class App extends Component {
     e.preventDefault();
     axios.post('/addUser', {username: this.state.username})
       .then(res => {
-        console.log(res.data)
+        // console.log("response form submitHandler", res.data)
         this.setState({loggedIn: true})
       })
         .catch(err => console.log(err))
@@ -66,8 +68,8 @@ class App extends Component {
   }
 
   addToCartHandler(id){
-    console.log(id)
-    console.log(this.state)
+    console.log("itemId for addToCartHandler", id)
+    console.log("State of application after adding to cart", this.state)
     axios.post('/addItem', {itemid: id, qty: this.state.qty[id]})
       .then(res => {
         console.log(res.data);
@@ -81,12 +83,39 @@ class App extends Component {
   render() {
 
     return (
+      <Router>
       <div>
-        <h1>React is WORKING</h1>
-        {this.state.loggedIn ? <Browse list={this.state.list} itemQtyChangeHandler={this.itemQtyChangeHandler} addToCartHandler={this.addToCartHandler} qty={this.state.qty} /> : 
-        <Login loginSubmitHandler={this.loginSubmitHandler} loginChangeHandler={this.loginChangeHandler} username={this.state.username}/>}
-        <Cart checkout={this.state.checkout}/>
+        <ul>
+          <li>
+            <Link to="/">Homepage Login</Link>
+          </li>
+          <li>
+            <Link to="/browse">Browse</Link>
+          </li>
+          <li>
+            <Link to="/cart">Cart</Link>
+          </li>
+        </ul>
+        <hr />
+        <Switch>
+          <Route exact path="/">
+          {this.state.loggedIn ? "You are already signed in. Please go to browsing page to start shopping!" : <Login loginSubmitHandler={this.loginSubmitHandler} loginChangeHandler={this.loginChangeHandler} username={this.state.username}/>}
+          </Route>
+          <Route path="/browse">
+          <Browse list={this.state.list} itemQtyChangeHandler={this.itemQtyChangeHandler} addToCartHandler={this.addToCartHandler} qty={this.state.qty} /> 
+          </Route>
+          <Route path="/cart">
+          <Cart checkout={this.state.checkout} checkoutTotal={this.state.checkoutTotal} checkoutTotalHandler={this.checkoutTotalHandler}/>
+          </Route>
+        </Switch>
       </div>
+    </Router>
+      // <div>
+      //   <h1>React is WORKING</h1>
+      //   {this.state.loggedIn ? <Browse list={this.state.list} itemQtyChangeHandler={this.itemQtyChangeHandler} addToCartHandler={this.addToCartHandler} qty={this.state.qty} /> : 
+      //   <Login loginSubmitHandler={this.loginSubmitHandler} loginChangeHandler={this.loginChangeHandler} username={this.state.username}/>}
+      //   <Cart checkout={this.state.checkout} checkoutTotal={this.state.checkoutTotal} checkoutTotalHandler={this.checkoutTotalHandler}/>
+      // </div>
     )
   }
 }

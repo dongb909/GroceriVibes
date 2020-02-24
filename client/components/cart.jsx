@@ -2,18 +2,21 @@ const React = require("react")
 
 const Cart = ({checkout}) =>  {
   const accumulatedItems = checkout.reduce((acc, currItem) => {
-    const {quantity, item, unitPrice} = currItem
-    // saving each item as {item: [0:total qty, 1:total price, 2:unit price]}
-    const currTotal = quantity * unitPrice
-    if (acc[item]) {
-      currTotal = 
-      acc[item][0] = acc[item][0] + quantity;
-      acc[item][1] = acc[item][1] + currTotal;
+    const {quantity:totalItemQty, item, price:unitPrice} = currItem
+    // saving each item as {item: [unitPrice, totalItemQty, totalItemCost]}
+    console.log("currentItem from cart", currItem);
+    const totalItemCost = totalItemQty * unitPrice
+    // console.log("accumulator", acc)
+    if (acc.item) {
+      acc.item[1] = acc.item[1] + totalItemQty;
+      acc.item[2] = acc.item[2] + totalItemCost;
     } else {
-      acc[item] = [totalItemQty, totalItemCost, unitPrice]
+      acc[item] = [unitPrice, totalItemQty, totalItemCost]
+      console.log("updated accumulartor", acc)
     }
+    return acc
   },{})
-  console.log("accumulated Items from cart"), accumulatedItems)
+  console.log("accumulated Items from cart", accumulatedItems)
   
   return (
     <div id="cart"> 
@@ -22,26 +25,34 @@ const Cart = ({checkout}) =>  {
           <tr>
             <th scope="col">ITEM</th>
             <th scope="col">UNIT PRICE</th>
-            <th scope="col">QUANTITY</th>
-            <th scope="col">TOTAL</th>
+            <th scope="col">TOTAL UNITS</th>
+            <th scope="col">ITEM TOTAL</th>
           </tr>
         </thead>
         <tbody>
           {Object.entries(accumulatedItems).map(
             entry => {
-              const [item, prices] = entry
-              const [totalItemQty, totalItemCost, unitPrice] = prices
+              const [item, [unitPrice, totalItemQty, totalItemCost]] = entry
               return (
                 <tr>
                   <td>{item}</td>
-                  <td>{unitPrice}</td>
+                  <td>${unitPrice}</td>
                   <td>{totalItemQty}</td>
-                  <td>{totalItemCost}</td>
+                  <td>${totalItemCost}</td>
                 </tr>
               )
             })
-            
           }
+          <tr>
+          </tr>
+          <tr>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td>Final total</td>
+            <td>$</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -55,8 +66,3 @@ export default Cart;
 //go through items and reduce to 1 line and then return new arr to display but not updating 
 //display new arr wty, item, total item price, at bottom total price. checkout button
 
-const  = () => {
-  return (  );
-}
- 
-export default ;
