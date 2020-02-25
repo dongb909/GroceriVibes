@@ -3,6 +3,7 @@ const path = require('path');
 const compression = require('compression');
 const cookieParser = require('cookie-parser')
 const psql= require ("../database/db_connection.js");
+const morgan = require('morgan');
 // const cors = require('cors');
 
 
@@ -10,6 +11,7 @@ const PORT = 3000;
 const app = express();
 
 // app.use(cors());
+app.use(morgan('dev'));
 app.use(express.json())
 app.use(compression());
 app.use(cookieParser());
