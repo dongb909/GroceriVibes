@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Search from './search'
+import Img from './images'
+
 
 const Banner = styled.h2 `
   line-height:100px;
@@ -13,39 +15,31 @@ const Banner = styled.h2 `
 const MainContainer = styled.div `
   margin-left:20%;
   margin-right:20%;
-  background-color: rgba(255,255,255,0.85);
   color: black;
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  grid-auto-rows: auto;
 `
 const ItemContainer = styled.div `
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-self: center;
+  border: black 1px solid;
+  background-color: rgba(255,255,255,0.85);
+  text-align: center;
+  padding: 20px;
 
 `
-const Column = styled.span `
-  flex:1;
-  text-align: center;
+const CellItem = styled.h5 `
+  line-height: 1;
 `
-const Cell = styled.span `
-  flex:1;
-  border: black 1px solid;
-  margin-top: -1px;
-  margin-left: -1px;
-  text-align: center;
+const CellContent = styled.p `
+  line-height: 0.5;
+
 `
+
 const Browse = ({list, itemQtyChangeHandler, addToCartHandler, qty, checkoutHandler}) => (
   <div id="BrowseContainer">
     <Banner>Start adding items to your cart</Banner>
+    <Search />
     <MainContainer>
-      <Search />
-      <ItemContainer>
-        <Column>Item</Column>
-        <Column>Category</Column>
-        <Column>Quanity Available</Column>
-        <Column>Price</Column>
-        <Column>Units</Column>
-      </ItemContainer>
       {list.map(item => (
         <Item {...item}  itemQtyChangeHandler={itemQtyChangeHandler} addToCartHandler={addToCartHandler} qty={qty}/>
         ))}
@@ -56,19 +50,18 @@ const Browse = ({list, itemQtyChangeHandler, addToCartHandler, qty, checkoutHand
 
 const Item = ({id, item, category, quantity, price, itemQtyChangeHandler, addToCartHandler, qty}) => (
   <ItemContainer> 
-    <Cell name="item" > {item}</Cell>
-    <Cell name="category" >{category}</Cell>
-    <Cell name="quantity" >{quantity}</Cell>
-    <Cell name="price">{price}</Cell> 
-    <Cell>  
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        addToCartHandler(id);
-        }}>
-        <input type="number" name="qty" id={id} min="1" max={quantity} onChange={itemQtyChangeHandler} value={qty[id]}/>
-        <button name="addToCart">Add to cart</button>
-      </form>
-    </Cell>
+    <Img id={id}/>
+    <CellItem name="item" > {item}</CellItem>
+    <CellContent name="category" > Category: {category}</CellContent>
+    <CellContent name="quantity" >Quantity: {quantity ? quantity : 'SOLD OUT'}</CellContent>
+    <CellContent name="price">Price: ${price}</CellContent> 
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      addToCartHandler(id);
+      }}>
+      <input type="number" name="qty" id={id} min="1" max={quantity} onChange={itemQtyChangeHandler} value={qty[id]}/>
+      <button name="addToCart">Add to cart</button>
+    </form>
   </ItemContainer>
 )
 
