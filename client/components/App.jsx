@@ -72,8 +72,8 @@ class App extends Component {
   }
 
   addToCartHandler(id){
-    console.log("itemId for addToCartHandler", id)
-    console.log("State of application after adding to cart", this.state)
+    // console.log("itemId for addToCartHandler", id)
+    // console.log("State of application after adding to cart", this.state)
     axios.post('/addItem', {itemid: id, qty: this.state.qty[id]})
       .then(res => {
         this.setState({list: res.data})
@@ -84,8 +84,7 @@ class App extends Component {
 
   }
   logOutHandler(e){
-    e.preventDefault();
-    this.setState({loggedIn: false})
+    this.setState({loggedIn: false, showCart:false, username:""})
     document.cookie = "userid=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
   }
@@ -97,9 +96,6 @@ class App extends Component {
     e.preventDefault();
     this.setState({showCart:false})
    }
-  
-  
-  
   
   render() {
 

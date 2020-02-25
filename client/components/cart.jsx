@@ -47,9 +47,9 @@ const Cart = ({checkout, backToBrowseHandler}) =>  {
     // console.log("currentItem from cart", currItem);
     const totalItemCost = totalItemQty * unitPrice
     // console.log("accumulator", acc)
-    if (acc.item) {
-      acc.item[1] = acc.item[1] + totalItemQty;
-      acc.item[2] = acc.item[2] + totalItemCost;
+    if (acc[item]) {
+      acc[item][1] += totalItemQty;
+      acc[item][2] += totalItemCost;
     } else {
       acc[item] = [unitPrice, totalItemQty, totalItemCost]
     }
