@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import Search from './search';
 import Img from './images';
 import PageNav from './pagination';
 import {setPageCookie} from '../utilities';
@@ -55,7 +54,6 @@ class Browse extends Component {
   return (
     <div id="BrowseContainer">
       <Banner>Start adding items to your cart</Banner>
-      <Search />
       <MainContainer>
         {miniList.map((item) => {
           return <Item
