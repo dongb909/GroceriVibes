@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
+import {setPageCookie} from '../utilities';
 
 const Banner = styled.h2`
   line-height:100px;
@@ -43,67 +44,75 @@ margin-top: -1px;
 margin-left: -1px;
 text-align: center;
 `;
+class Cart extends Component {
+  componentDidMount(){
+    console.log("this is cart component")
+    setPageCookie('cart');
 
-const Cart = ({checkout, backToBrowseHandler}) => {
-  let checkoutTotal = 0;
-  const accumulatedItems = checkout.reduce((acc, currItem) => {
-    const { quantity: totalItemQty, item, price: unitPrice } = currItem;
-    // saving each item as {item: [unitPrice, totalItemQty, totalItemCost]}
-    const totalItemCost = totalItemQty * unitPrice;
-    if (acc[item]) {
-      acc[item][1] += totalItemQty;
-      acc[item][2] += totalItemCost;
-    } else {
-      acc[item] = [unitPrice, totalItemQty, totalItemCost];
-    }
-    checkoutTotal += totalItemCost;
-    return acc;
-  }, {});
+  }
+  render() {
+    const {checkout, backToBrowseHandler} = this.props
+    let checkoutTotal = 0;
+    const accumulatedItems = checkout.reduce((acc, currItem) => {
+      const { quantity: totalItemQty, item, price: unitPrice } = currItem;
+      // saving each item as {item: [unitPrice, totalItemQty, totalItemCost]}
+      const totalItemCost = totalItemQty * unitPrice;
+      if (acc[item]) {
+        acc[item][1] += totalItemQty;
+        acc[item][2] += totalItemCost;
+      } else {
+        acc[item] = [unitPrice, totalItemQty, totalItemCost];
+      }
+      checkoutTotal += totalItemCost;
+      return acc;
+    }, {});
+  
+    return (
+      <div id="cart"> 
+        <Banner>Your cart</Banner>
+        <button type="button" onClick={backToBrowseHandler}>Back</button>
+        <MainContainer>
+          <ItemContainer>
+            <Column>Item</Column>
+            <Column>Unit Price</Column>
+            <Column>Total Units</Column>
+            <Column>Item Total</Column>
+          </ItemContainer>
+          {Object.entries(accumulatedItems).map(
+            (entry) => {
+              const [item, [unitPrice, totalItemQty, totalItemCost]] = entry;
+              return (
+                <ItemContainer>
+                  <Cell name="item">
+                    {item}
+                  </Cell>
+                  <Cell name="category">
+                    $
+                    {unitPrice}
+                  </Cell>
+                  <Cell name="quantity">
+                    {totalItemQty}
+                  </Cell>
+                  <Cell name="price">
+                    $
+                    {totalItemCost.toFixed(2)}
+                  </Cell>
+                </ItemContainer>
+              );
+            },
+          )}
+          <ItemContainer>
+            <CheckoutTotal>Checkout Total</CheckoutTotal>
+            <Cell>
+              $
+              {checkoutTotal.toFixed(2)}
+            </Cell>
+          </ItemContainer>
+        </MainContainer>
+      </div>
+    );
+  }
 
-  return (
-    <div id="cart"> 
-      <Banner>Your cart</Banner>
-      <button type="button" onClick={backToBrowseHandler}>Back</button>
-      <MainContainer>
-        <ItemContainer>
-          <Column>Item</Column>
-          <Column>Unit Price</Column>
-          <Column>Total Units</Column>
-          <Column>Item Total</Column>
-        </ItemContainer>
-        {Object.entries(accumulatedItems).map(
-          (entry) => {
-            const [item, [unitPrice, totalItemQty, totalItemCost]] = entry;
-            return (
-              <ItemContainer>
-                <Cell name="item">
-                  {item}
-                </Cell>
-                <Cell name="category">
-                  $
-                  {unitPrice}
-                </Cell>
-                <Cell name="quantity">
-                  {totalItemQty}
-                </Cell>
-                <Cell name="price">
-                  $
-                  {totalItemCost.toFixed(2)}
-                </Cell>
-              </ItemContainer>
-            );
-          },
-        )}
-        <ItemContainer>
-          <CheckoutTotal>Checkout Total</CheckoutTotal>
-          <Cell>
-            $
-            {checkoutTotal.toFixed(2)}
-          </Cell>
-        </ItemContainer>
-      </MainContainer>
-    </div>
-  );
-};
+}
 
 export default Cart;

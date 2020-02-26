@@ -6,7 +6,9 @@ const PageNav = ({pages, pageChangeHandler}) => (
         {pages.map(page => {
           console.log(page)
           return <li className="page-item">
-            <a className="page-link" onClick={pageChangeHandler(page)}>
+            <a className="page-link" onClick={() => {
+              pageChangeHandler(page)
+            }}>
               {page}
             </a>
         </li>})};

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const DisplayChoice = styled.div`
   display: flex;
+  margin-left: 20%;
 `;
 const Button = styled.button`
   flex:1;
@@ -12,7 +13,7 @@ const Form = styled.form`
 `;
 
 const Search = ({category, displayAllHandler, selectHandler}) => (
-  <DisplayChoice>
+  <DisplayChoice className="col-4">
     <Button onClick={displayAllHandler}>Display all items</Button>
     <Form>
       <select value={category} onChange={selectHandler}>

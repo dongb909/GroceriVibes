@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./server/index.js",
-    "react-dev": "webpack -p -w",
+    "react-dev": "webpack -d -w",
     "create-db": "psql < ./database/schema.sql",
     "lint": "eslint ./"
   },

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 import Search from './search';
 import Img from './images';
 import PageNav from './pagination';
+import {setPageCookie} from '../utilities';
 
 const Banner = styled.h2`
   line-height:100px;
@@ -34,9 +35,13 @@ const CellContent = styled.p`
   line-height: 0.5;
 
 `;
-
-const Browse = ({list, itemQtyChangeHandler, addToCartHandler, qty, checkoutHandler, pageChangeHandler, pageNumber}) => {
-
+class Browse extends Component {
+  componentDidMount(){
+    console.log("this is browse component")
+    setPageCookie('browse');
+  }
+  render() {
+    const {list, itemQtyChangeHandler, addToCartHandler, qty, checkoutHandler, pageChangeHandler, pageNumber} = this.props
   const pagesNeeded = Math.ceil(list.length/6) + 1;
   const pages = [];
   for (let i = 1; i < pagesNeeded; i++){
@@ -66,6 +71,7 @@ const Browse = ({list, itemQtyChangeHandler, addToCartHandler, qty, checkoutHand
     </div>
   );
 }
+}
 
 const Item = ({id, item, category, quantity, price, itemQtyChangeHandler, addToCartHandler, qty}) => (
   <ItemContainer> 
@@ -91,7 +97,7 @@ const Item = ({id, item, category, quantity, price, itemQtyChangeHandler, addToC
     }}
     >
       <input type="number" name="qty" id={id} min="1" max={quantity} onChange={itemQtyChangeHandler} value={qty[id]} />
-      <button type="button" name="addToCart">
+      <button type="submit" name="addToCart">
         Add to cart
       </button>
     </form>

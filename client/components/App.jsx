@@ -3,21 +3,12 @@ import axios from 'axios';
 import Login from './login';
 import Browse from './browse';
 import Cart from './cart';
+import {getCookies} from '../utilities'
 // import styled from 'styled-components';
-/*eslint-disable */
-function getCookies() {
-  const pairs = document.cookie.split(';');
-  const cookies = {};
-  for (var i=0; i<pairs.length; i++) {
-    const pair = pairs[i].split('=');
-    cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
-  }
-  return cookies;
-}
-/* eslint-enable */
+
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       list: [],
       username: '',
@@ -46,16 +37,28 @@ class App extends Component {
     if(cookies.userid) {
       this.setState({loggedIn: true})
     }
-    axios.get("/all-items")
-      .then((res) => {
-          // console.log("response data Axios",res.data );
-          this.setState({list:res.data})
+    if(cookies.page === 'cart'){
+      this.setState({showCart:true})
+    }
+    console.log('cooookiesss', cookies.page)
+    const getItems = axios.get("/all-items")
+    const getCart = axios.get("/cartItems")
+    Promise.all([getItems, getCart]).then((results) => {
+      this.setState({
+        list:results[0].data,
+        checkout:results[1].data
       })
-      .catch(err => console.log('ERROR from CLENT getAllItems', err ))
+    })
+    // axios.get("/all-items")
+    //   .then((res) => {
+    //       // console.log("response data Axios",res.data );
+    //       this.setState({list:res.data})
+    //   })
+    //   .catch(err => console.log('ERROR from CLENT getAllItems', err ))
 
-    axios.get("/cartItems")
-      .then(res => this.setState({checkout:res.data}))
-        .catch(err => console.log('ERROR from CLENT getCartItems', err ))
+    // axios.get("/cartItems")
+    //   .then(res => this.setState({checkout:res.data}))
+    //     .catch(err => console.log('ERROR from CLENT getCartItems', err ))
   }
 
   loginSubmitHandler(e) {
@@ -64,6 +67,9 @@ class App extends Component {
       .then(res => {
         // console.log("response form submitHandler", res.data)
         this.setState({loggedIn: true})
+        axios.get("/cartItems")
+          .then(res => this.setState({checkout:res.data}))
+        .catch(err => console.log('ERROR from CLENT AXIOS REQ', err ))
       })
         .catch(err => console.log(err))
   }
@@ -84,8 +90,8 @@ class App extends Component {
   }
 
   addToCartHandler(id){
-    // console.log("itemId for addToCartHandler", id)
-    // console.log("State of application after adding to cart", this.state)
+    console.log("itemId for addToCartHandler", id)
+    console.log("State of application after adding to cart", this.state)
     axios.post('/addItem', {itemid: id, qty: this.state.qty[id]})
       .then(res => {
         this.setState({list: res.data})
@@ -96,7 +102,7 @@ class App extends Component {
 
   }
   logOutHandler(e){
-    this.setState({loggedIn: false, showCart:false, username:""})
+    this.setState({loggedIn: false, showCart:false, username:"", checkout:[]})
     document.cookie = "userid=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
   }
