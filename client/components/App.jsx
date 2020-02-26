@@ -3,34 +3,46 @@ import axios from 'axios';
 import Login from './login';
 import Browse from './browse';
 import Cart from './cart';
-import styled from 'styled-components';
-
+// import styled from 'styled-components';
+/*eslint-disable */
+function getCookies() {
+  const pairs = document.cookie.split(';');
+  const cookies = {};
+  for (var i=0; i<pairs.length; i++) {
+    const pair = pairs[i].split('=');
+    cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
+  }
+  return cookies;
+}
+/* eslint-enable */
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state ={
+    this.state = {
       list: [],
-      username: "",
-      qty:{
+      username: '',
+      qty: {
       },
-      checkout:[],
+      checkout: [],
       showCart: false,
       loggedIn: false,
-      checkoutTotal:0,
-      category:""
-    }
-    this.loginSubmitHandler= this.loginSubmitHandler.bind(this);
-    this.loginChangeHandler= this.loginChangeHandler.bind(this);
-    this.addToCartHandler= this.addToCartHandler.bind(this);
-    this.itemQtyChangeHandler= this.itemQtyChangeHandler.bind(this);
-    this.checkoutHandler= this.checkoutHandler.bind(this);
-    this.backToBrowseHandler= this.backToBrowseHandler.bind(this);
-    this.logOutHandler= this.logOutHandler.bind(this);
+      checkoutTotal: 0,
+      category: '',
+      pageNumber: 1
+    };
+    this.loginSubmitHandler = this.loginSubmitHandler.bind(this);
+    this.loginChangeHandler = this.loginChangeHandler.bind(this);
+    this.addToCartHandler = this.addToCartHandler.bind(this);
+    this.itemQtyChangeHandler = this.itemQtyChangeHandler.bind(this);
+    this.checkoutHandler = this.checkoutHandler.bind(this);
+    this.backToBrowseHandler = this.backToBrowseHandler.bind(this);
+    this.logOutHandler = this.logOutHandler.bind(this);
+    this.pageChangeHandler = this.pageChangeHandler.bind(this);
   }
+  
 
-
-  componentDidMount () {
-    const cookies = getCookies()
+  componentDidMount() {
+    const cookies = getCookies();
     if(cookies.userid) {
       this.setState({loggedIn: true})
     }
@@ -96,7 +108,9 @@ class App extends Component {
     e.preventDefault();
     this.setState({showCart:false})
    }
-  
+   pageChangeHandler(pageNumber){
+    this.setState({pageNumber})
+   }
   render() {
 
     return (
@@ -110,7 +124,9 @@ class App extends Component {
             itemQtyChangeHandler={this.itemQtyChangeHandler}
             addToCartHandler={this.addToCartHandler}
             qty={this.state.qty} 
-            checkoutHandler={this.checkoutHandler}/>  }
+            checkoutHandler={this.checkoutHandler}
+            pageChangeHandler={this.pageChangeHandler}
+            pageNumber={this.state.pageNumber}/>} 
 
         {this.state.showCart &&
         <Cart
@@ -126,33 +142,6 @@ class App extends Component {
   }
 }
 
-const getCookies = function(){
-  const pairs = document.cookie.split(";");
-  const cookies = {};
-  for (var i=0; i<pairs.length; i++){
-    const pair = pairs[i].split("=");
-    cookies[(pair[0]+'').trim()] = unescape(pair.slice(1).join('='));
-  }
-  console.log(`cookies `, cookies)
-  return cookies;
-}
 
-// const getStateFromStore = (state) => {
-//   return {
-//     movies: state.movies
-//   }
-// }
-
-//taking the state from store and applying a property to store the data locally from the redux store
-//aka grabing the current state of something
-
-// export default connect(getStateFromStore)(App)
 export default App;
 
-//returns a higher order component that will wrap this component so it can connect to the redux store
-//react-boostrap 
-//--save react-router-dom
-//const styles = styled.div`
-// .navbar {}
-//.navvar-brand {}
-//  &:hover {  }`

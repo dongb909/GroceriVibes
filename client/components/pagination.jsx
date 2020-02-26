@@ -1,17 +1,17 @@
 import React from 'react';
 
-const PageNav = () => {
-  
-  
-  return ( 
+const PageNav = ({pages, pageChangeHandler}) => (
     <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        <li class="page-item"><a class="page-link">1</a></li>
-        <li class="page-item"><a class="page-link">2</a></li>
-        <li class="page-item"><a class="page-link">3</a></li>
+      <ul className="pagination">
+        {pages.map(page => {
+          console.log(page)
+          return <li className="page-item">
+            <a className="page-link" onClick={pageChangeHandler(page)}>
+              {page}
+            </a>
+        </li>})};
       </ul>
     </nav>
-   );
-}
- 
+);
+
 export default PageNav;
