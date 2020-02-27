@@ -103,7 +103,7 @@ class App extends Component {
   }
   logOutHandler(e){
     this.setState({loggedIn: false, showCart:false, username:"", checkout:[]})
-    document.cookie = "userid=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    document.cookie = "userid=; page=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
 
   }
    checkoutHandler(e){
