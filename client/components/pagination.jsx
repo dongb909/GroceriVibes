@@ -4,8 +4,7 @@ const PageNav = ({pages, pageChangeHandler}) => (
     <nav aria-label="Page navigation example">
       <ul className="pagination">
         {pages.map(page => {
-          console.log(page)
-          return <li className="page-item">
+          return <li className="page-item" key={page}>
             <a className="page-link" onClick={() => {
               pageChangeHandler(page)
             }}>

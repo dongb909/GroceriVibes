@@ -18,7 +18,7 @@ class App extends Component {
       showCart: false,
       loggedIn: false,
       checkoutTotal: 0,
-      category: '',
+      category: 'all items',
       pageNumber: 1
     };
     this.loginSubmitHandler = this.loginSubmitHandler.bind(this);
@@ -29,6 +29,7 @@ class App extends Component {
     this.backToBrowseHandler = this.backToBrowseHandler.bind(this);
     this.logOutHandler = this.logOutHandler.bind(this);
     this.pageChangeHandler = this.pageChangeHandler.bind(this);
+    this.categoryHandler = this.categoryHandler.bind(this);
   }
   
 
@@ -117,6 +118,11 @@ class App extends Component {
    pageChangeHandler(pageNumber){
     this.setState({pageNumber})
    }
+
+   categoryHandler(e) {
+     e.preventDefault();
+     this.setState({category: e.target.value});
+   }
   render() {
 
     return (
@@ -132,7 +138,9 @@ class App extends Component {
             qty={this.state.qty} 
             checkoutHandler={this.checkoutHandler}
             pageChangeHandler={this.pageChangeHandler}
-            pageNumber={this.state.pageNumber}/>} 
+            pageNumber={this.state.pageNumber}
+            category={this.state.category} 
+            categoryHandler={this.categoryHandler}/>} 
 
         {this.state.showCart &&
         <Cart

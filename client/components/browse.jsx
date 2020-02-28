@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import styled from 'styled-components';
 import Img from './images';
 import PageNav from './pagination';
+import Category from './category';
 import {setPageCookie} from '../utilities';
 
 const Banner = styled.h2`
@@ -40,34 +41,43 @@ class Browse extends Component {
     setPageCookie('browse');
   }
   render() {
-    const {list, itemQtyChangeHandler, addToCartHandler, qty, checkoutHandler, pageChangeHandler, pageNumber} = this.props
-  const pagesNeeded = Math.ceil(list.length/6) + 1;
-  const pages = [];
-  for (let i = 1; i < pagesNeeded; i++){
-    pages.push(i);
-  };
-  
-  const indexStart = (pageNumber - 1) * 6;
-  const indexEnd = pageNumber * 6;
-  const miniList = list.slice(indexStart, indexEnd);
-  console.log(`pages `, pages)
-  return (
-    <div id="BrowseContainer">
-      <Banner>Start adding items to your cart</Banner>
-      <MainContainer>
-        {miniList.map((item) => {
-          return <Item
-            {...item}
-            itemQtyChangeHandler={itemQtyChangeHandler}
-            addToCartHandler={addToCartHandler}
-            qty={qty}
-          />
-        })}
-        <button type="submit" id="checkoutButton" onClick={checkoutHandler}>Checkout</button>
-      </MainContainer>
-      <PageNav pageChangeHandler={pageChangeHandler} pages={pages}/>
-    </div>
-  );
+    const {list, itemQtyChangeHandler, addToCartHandler, qty, checkoutHandler, pageChangeHandler, pageNumber, categoryHandler, category} = this.props
+
+    //Category filtering
+    const displayList = (category !== "all items") ?
+      list.filter(item => item.category === category):
+      list
+
+      
+      const pagesNeeded = Math.ceil(displayList.length/2) + 1;
+      const pages = [];
+      for (let i = 1; i < pagesNeeded; i++){
+        pages.push(i);
+      };
+      const indexStart = (pageNumber - 1) * 2;
+      const indexEnd = pageNumber * 2;
+      // console.log(`pages `, pages)
+      const miniList = displayList.slice(indexStart, indexEnd);
+
+    return (
+      <div id="BrowseContainer">
+        <Banner>Start adding items to your cart</Banner>
+        <Category categoryHandler={categoryHandler} category={category}/>
+        <MainContainer>
+          {miniList.map((item) => {
+            return <Item
+              {...item}
+              itemQtyChangeHandler={itemQtyChangeHandler}
+              addToCartHandler={addToCartHandler}
+              qty={qty}
+              key={item.id}
+            />
+          })}
+          <button type="submit" id="checkoutButton" onClick={checkoutHandler}>Checkout</button>
+        </MainContainer>
+        <PageNav pageChangeHandler={pageChangeHandler} pages={pages}/>
+      </div>
+    );
 }
 }
 
