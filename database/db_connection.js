@@ -28,6 +28,7 @@ const getAllItems = cb => {
 
 const getCartItems = (cb, userid) => {
   console.log(`userid `, userid)
+  console.log(userid)
   client.query((`SELECT carts.quantity, inventory.item, inventory.price 
     FROM carts INNER JOIN inventory ON inventory.id = carts.itemid WHERE userid=${userid};`),
      (err,res) => {

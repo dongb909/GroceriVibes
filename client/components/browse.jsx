@@ -49,13 +49,13 @@ class Browse extends Component {
       list
 
       
-      const pagesNeeded = Math.ceil(displayList.length/2) + 1;
+      const pagesNeeded = Math.ceil(displayList.length/6) + 1;
       const pages = [];
       for (let i = 1; i < pagesNeeded; i++){
         pages.push(i);
       };
-      const indexStart = (pageNumber - 1) * 2;
-      const indexEnd = pageNumber * 2;
+      const indexStart = (pageNumber - 1) * 6;
+      const indexEnd = pageNumber * 6;
       // console.log(`pages `, pages)
       const miniList = displayList.slice(indexStart, indexEnd);
 

@@ -23,6 +23,7 @@ app.get('/all-items', (req, res) => {
   psql.getAllItems((err, data) => {
     if (err) {
       res.status(400).send(err);
+      console.log("HIIIIIIIIIIIIIIIIIII 1")
     } else {
       res.status(200).send(data);
     }
@@ -33,6 +34,7 @@ app.get('/cartItems', (req, res) => {
   psql.getCartItems((err, data) => {
     if (err) {
       res.status(400).send(err);
+      console.log("HIIIIIIIIIIIIIIIIIII 2")
     } else {
       res.status(200).send(data);
     }
