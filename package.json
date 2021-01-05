@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/dongb909/GroceriVibes#readme",
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-loader": "^8.0.6",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.4",
